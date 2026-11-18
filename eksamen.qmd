@@ -1,16 +1,15 @@
-title: "Arbeidskrav i økonometri"
-subtitle: "MSB104 – Høsten 2026"
-author:
-  - "Jarle"
-  - "Bruvik"
-  - "Mats"
-date: "2026-11-16"
-lang: nb
-format:
-  html:
-    toc: true
-    number-sections: true
 ---
+title: "Arbeidskrav i økonometri" 
+subtitle: "MSB104 – Høsten 2026" 
+author: - "Jarle" - "Bruvik" - "Mats" 
+date: "2026-11-16" 
+lang: nb 
+format: 
+html: 
+toc: true 
+number-sections: true ---
+---
+
 
 # Oppgave 1 – Sammendrag av Fitjar (2025)
 
@@ -18,8 +17,8 @@ I artikkelen *Does public R&D funding reinforce regional disparities? Exploring 
 
 Studien tar utgangspunkt i to forskningsspørsmål:
 
-1. Går offentlige FoU-investeringer hovedsakelig til regioner som allerede er økonomisk utviklet?
-2. Blir forskjellene i offentlige FoU-investeringer mellom europeiske regioner mindre over tid?
+1.  Går offentlige FoU-investeringer hovedsakelig til regioner som allerede er økonomisk utviklet?
+2.  Blir forskjellene i offentlige FoU-investeringer mellom europeiske regioner mindre over tid?
 
 **Data og metode**
 
@@ -46,7 +45,7 @@ NUTS (*Nomenclature of Territorial Units for Statistics*) er EUs standardiserte 
 NUTS-systemet er hierarkisk og består av tre nivåer, som i hovedsak er definert ut fra befolkningsstørrelse:
 
 | Nivå | Beskrivelse | Befolkningsstørrelse |
-|---|---|---|
+|------------------------|------------------------|------------------------|
 | NUTS1 | Store sosioøkonomiske regioner | 3–7 millioner |
 | NUTS2 | Mellomstore regioner, særlig brukt i regionalpolitikk | 800 000–3 millioner |
 | NUTS3 | Mindre regioner for detaljerte regionale analyser | 150 000–800 000 |
@@ -57,14 +56,4 @@ Formålet med NUTS er å gjøre regionale data sammenlignbare mellom land, selv 
 
 I dette arbeidskravet benytter vi data på NUTS2-nivå. Dette gjør det mulig å sammenligne FoU-investeringer og økonomiske kjennetegn mellom regioner innenfor og på tvers av europeiske land. Samtidig er det viktig å være oppmerksom på at regionenes grenser og klassifisering kan endres over tid, noe som kan påvirke sammenlignbarheten mellom datasett og tidsperioder.
 
-# Referanser
-
-Fitjar, R. D. (2025). Does public R&D funding reinforce regional disparities? Exploring the changing geography of public and business R&D expenditure in Europe. *Research Policy, 54*(9), 105312.
-https://doi.org/10.1016/j.respol.2025.105312
-
-Eurostat. (u.å.). *NUTS – Nomenclature of territorial units for statistics.*
-https://ec.europa.eu/eurostat/web/nuts/overview
-
-Eurostat. (u.å.). *NUTS – Principles.*
-https://ec.europa.eu/eurostat/web/nuts/principles
 
