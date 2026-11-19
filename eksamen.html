@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -47,66 +82,45 @@ ul.task-list li input[type="checkbox"] {
 
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">eksamen</h1>
+</div>
 
 
 
-<p>title: “Arbeidskrav i økonometri” subtitle: “MSB104 – Høsten 2026” author: - “Jarle” - “Bruvik” - “Mats” date: “2026-11-16” lang: nb format: html: toc: true number-sections: true —</p>
-<section id="oppgave-1-sammendrag-av-fitjar-2025" class="level1">
-<h1>Oppgave 1 – Sammendrag av Fitjar (2025)</h1>
-<p>I artikkelen <em>Does public R&amp;D funding reinforce regional disparities? Exploring the changing geography of public and business R&amp;D expenditure in Europe</em> undersøker Fitjar (2025) om offentlige investeringer i forskning og utvikling (FoU) bidrar til å forsterke regionale økonomiske forskjeller i Europa.</p>
-<p>Studien tar utgangspunkt i to forskningsspørsmål:</p>
-<ol type="1">
-<li>Går offentlige FoU-investeringer hovedsakelig til regioner som allerede er økonomisk utviklet?</li>
-<li>Blir forskjellene i offentlige FoU-investeringer mellom europeiske regioner mindre over tid?</li>
-</ol>
-<p><strong>Data og metode</strong></p>
-<p>Fitjar benytter data fra Eurostat for 200 regioner fordelt på 22 europeiske land i perioden 2009–2018. De fleste regionene er på NUTS2-nivå, men Belgia, Tyskland og Storbritannia er representert på NUTS1-nivå.</p>
-<p>Offentlige FoU-utgifter måles gjennom FoU-aktivitet i offentlig sektor og universitets- og høyskolesektoren, mens private FoU-utgifter måles gjennom næringslivets FoU-aktivitet. Investeringene måles som andel av regionalt BNP.</p>
-<p>Studien benytter blant annet regresjonsanalyser for å undersøke sammenhengen mellom offentlige FoU-investeringer og regionale kjennetegn som BNP per innbygger, privat FoU, utdanningsnivå, befolkningstetthet og næringsstruktur. Videre undersøkes utviklingen i regionale forskjeller gjennom analyser av beta- og sigma-konvergens.</p>
-<p><strong>Hovedfunn</strong></p>
-<p>Fitjar finner at økonomisk utviklede regioner generelt har høyere offentlige FoU-investeringer. Dette henger særlig sammen med at disse regionene har høyere utdanningsnivå og større privat FoU-aktivitet. Hovedstadsregioner mottar også relativt mye offentlig FoU, men sammenhengen kan delvis forklares av deres høye konsentrasjon av humankapital.</p>
-<p>Studien finner noe beta-konvergens i offentlige FoU-investeringer, som innebærer at regioner med lavt utgangspunkt har hatt relativt høyere vekst. Det finnes imidlertid ikke statistisk støtte for sigma-konvergens, altså at de samlede forskjellene mellom regionene blir mindre.</p>
-<p>For private FoU-investeringer finner studien derimot både beta- og sigma-konvergens. Dette tyder på at forskjellene mellom regionene faktisk har blitt redusert over tid, særlig gjennom vekst i regioner med lavere opprinnelige investeringer.</p>
-<p>Fitjar konkluderer dermed med at offentlige FoU-investeringer i stor grad favoriserer regioner som allerede har sterke økonomiske og kunnskapsmessige forutsetninger. Offentlig FoU-finansiering kan derfor bidra til å opprettholde eller forsterke regionale forskjeller, fremfor å redusere dem.</p>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="quarto" class="level2">
+<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
+<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
 </section>
-<section id="oppgave-2-forklaring-av-nuts-regioner" class="level1">
-<h1>Oppgave 2 – Forklaring av NUTS-regioner</h1>
-<p>NUTS (<em>Nomenclature of Territorial Units for Statistics</em>) er EUs standardiserte system for geografisk inndeling av regioner. Systemet brukes av Eurostat for å samle inn, organisere og sammenligne regional statistikk på tvers av europeiske land.</p>
-<p>NUTS-systemet er hierarkisk og består av tre nivåer, som i hovedsak er definert ut fra befolkningsstørrelse:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Nivå</th>
-<th>Beskrivelse</th>
-<th>Befolkningsstørrelse</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>NUTS1</td>
-<td>Store sosioøkonomiske regioner</td>
-<td>3–7 millioner</td>
-</tr>
-<tr class="even">
-<td>NUTS2</td>
-<td>Mellomstore regioner, særlig brukt i regionalpolitikk</td>
-<td>800 000–3 millioner</td>
-</tr>
-<tr class="odd">
-<td>NUTS3</td>
-<td>Mindre regioner for detaljerte regionale analyser</td>
-<td>150 000–800 000</td>
-</tr>
-</tbody>
-</table>
-<p>Grensene er veiledende for den regionale inndelingen, og det finnes unntak. Systemet tar også hensyn til eksisterende administrative grenser og nasjonale forhold.</p>
-<p>Formålet med NUTS er å gjøre regionale data sammenlignbare mellom land, selv om landene har ulike administrative strukturer. Klassifiseringen brukes blant annet i analyser av økonomisk utvikling, sysselsetting, befolkning og regionale forskjeller, samt ved utforming av EUs regionalpolitikk.</p>
-<p>I dette arbeidskravet benytter vi data på NUTS2-nivå. Dette gjør det mulig å sammenligne FoU-investeringer og økonomiske kjennetegn mellom regioner innenfor og på tvers av europeiske land. Samtidig er det viktig å være oppmerksom på at regionenes grenser og klassifisering kan endres over tid, noe som kan påvirke sammenlignbarheten mellom datasett og tidsperioder.</p>
+<section id="running-code" class="level2">
+<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
+<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>You can add options to executable code like this</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
 </section>
 
 </main>
