@@ -3,7 +3,9 @@ title: "eksamen"
 format: html
 editor: visual
 ---
+
 ## Oppgave 3 – Beskrivende statistikk
+
 ```{r}
 library(tidyverse)
 load("eu0823.RData")
@@ -34,6 +36,7 @@ tabell3 <- eu0823 |>
 flextable::flextable(tabell3) |>
   flextable::autofit()
 ```
+
 **Sammenligning med Fitjar (2025)**
 
 Tabellen viser beskrivende statistikk for 196 europeiske NUTS2-regioner i perioden 2008–2023, med totalt 3136 observasjoner. Resultatene samsvarer med kontrolltabellen i oppgaveteksten.
@@ -45,6 +48,7 @@ Vårt datasett dekker en lengre tidsperiode og har noe færre regioner. Oppgavet
 Datamaterialene gir dermed et godt utgangspunkt for å sammenligne analysene, men vi kan ikke forvente helt identiske resultater.
 
 ## Oppgave 4 – Korrelasjonsmatrise for 2009
+
 ```{r}
 data_2009 <- eu0823 |>
   filter(time == "2009") |>
@@ -55,18 +59,21 @@ data_2009 <- eu0823 |>
 
 dim(data_2009)
 ```
+
 ```{r}
 korrelasjon_2009 <- rstatix::cor_mat(data_2009)
 
 flextable::flextable(korrelasjon_2009) |>
   flextable::autofit()
 ```
+
 ```{r}
 korrelasjon_2009 |>
   rstatix::pull_lower_triangle() |>
   flextable::flextable() |>
   flextable::autofit()
 ```
+
 **Sammenligning med Fitjar (2025)**
 
 Korrelasjonsmatrisen for 2009 viser flere positive sammenhenger mellom variablene. Offentlige og private FoU-utgifter har en korrelasjon på 0,50, mens sammenhengen mellom hovedstadsregioner og BNP er 0,66. Det er også en relativt sterk positiv korrelasjon mellom BNP og utdanning (0,62).
@@ -91,6 +98,7 @@ korrelasjon_0823 |>
   flextable::flextable() |>
   flextable::autofit()
 ```
+
 **Sammenligning med 2009 og Fitjar (2025)**
 
 Korrelasjonsmatrisen for perioden 2008–2023 viser stort sett de samme sammenhengene som matrisen for 2009, men det er enkelte forskjeller.
@@ -100,3 +108,13 @@ Korrelasjonen mellom offentlig og privat FoU synker fra 0,50 til 0,41. Sammenhen
 Dette viser at valg av tidsperiode kan påvirke korrelasjonene. Datamaterialet for hele perioden inneholder flere observasjoner, men disse inkluderer gjentatte observasjoner av de samme regionene.
 
 For å avgjøre om korrelasjonene samsvarer bedre med Fitjar (2025), må verdiene sammenlignes direkte med Appendiks A.5 i originalartikkelen. Ut fra våre beregninger alene kan vi ikke konkludere med hvilken periode som gir best samsvar.
+
+## Oppgave 6 – Definisjon av variabler
+
+Variabelen GDP blir definert i tabell 1 i Fitjar(2025) som "log GDP per capita, share of national average". Altså Log(Regional GDP per innbygger/Nasjonal GDP per innbygger).
+
+Variabelen Manuf blir definert i tabell 1 i Fitjar(2025) som "% employment in manufacturing". I metodekapittelet spesifiseres det som "the share of people aged 15–74 working in manufacturing sectors (NACE code B-E)" Altså (Arbeidstakere i produksjonssektoren(NACE B-E)/Personer i alderen 15-74)
+
+NACE er en europeisk standard for klassifisering av næring. B-E omfatter B "Mining and quarrying", "Manufacturing", "Electricity, gas, steam and air conditioning supply" og "Water supply, sewerage, waste managment and remediation activities". (https://ec.europa.eu/competition/mergers/cases/index/nace_all.html)
+
+Variablen density er definert i metodekapittelet som "the log of the region's population per km^2^ of area". Altså log(Population/km^2^).
