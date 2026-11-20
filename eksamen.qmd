@@ -111,10 +111,64 @@ For å avgjøre om korrelasjonene samsvarer bedre med Fitjar (2025), må verdien
 
 ## Oppgave 6 – Definisjon av variabler
 
-Variabelen GDP blir definert i tabell 1 i Fitjar(2025) som "log GDP per capita, share of national average". Altså Log(Regional GDP per innbygger/Nasjonal GDP per innbygger).
+Variabelen GDP er brutto nasjonal produkt, men ikke brukt i modellen i Fitjar(2025). Derfor legger jeg til grunn at det er GDP_log som er den aktuelle variabelen å se på.
+
+Variabelen GDP_log blir definert i tabell 1 i Fitjar(2025) som "log GDP per capita, share of national average". Altså Log(Regional GDP per innbygger/Nasjonal GDP per innbygger).
 
 Variabelen Manuf blir definert i tabell 1 i Fitjar(2025) som "% employment in manufacturing". I metodekapittelet spesifiseres det som "the share of people aged 15–74 working in manufacturing sectors (NACE code B-E)" Altså (Arbeidstakere i produksjonssektoren(NACE B-E)/Personer i alderen 15-74)
 
 NACE er en europeisk standard for klassifisering av næring. B-E omfatter B "Mining and quarrying", "Manufacturing", "Electricity, gas, steam and air conditioning supply" og "Water supply, sewerage, waste managment and remediation activities". (https://ec.europa.eu/competition/mergers/cases/index/nace_all.html)
 
 Variablen density er definert i metodekapittelet som "the log of the region's population per km^2^ of area". Altså log(Population/km^2^).
+
+## Oppgave 7 – topp 5 og bunn av 5 av GDP, Manuf og Density (Gjennomsnitt av periode)
+Siden tidsperspektivet ikke er spesifisert i oppgaven legger jeg til grunn at det er gjennomsnittet av perioden som er interresant.
+
+#gdp_region
+
+```{r}
+gdp_region <- eu0823 |>
+  group_by(geo, name) |>
+  summarise(
+    GDP_log = mean(GDP_log, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(GDP_log))
+
+head(gdp_region, 5)
+tail(gdp_region, 5)
+```
+
+#manuf
+
+```{r}
+Manuf_region <- eu0823 |>
+  group_by(geo, name) |>
+  summarise(
+    Manuf = mean(Manuf, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(Manuf))
+
+head(Manuf_region, 5)
+tail(Manuf_region, 5)
+```
+
+#Density
+
+```{r}
+Density_region <- eu0823 |>
+  group_by(geo, name) |>
+  summarise(
+    Density = mean(Density, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(Density))
+
+head(Density_region, 5)
+tail(Density_region, 5)
+```
+
+
+## Oppgave 8 – Data Fitjar(2025)
+Vi kan lese fra abstracten at Fitjas(2025) ser på data fra 200 regioner i perioden 2009 til 2018. Antall regioner kommer også fram i flere av tabellen når vi ser på antall observasjoner. I metodekapittel spesifiseres det at disse regionene er fordelt på 22 land og at det i enkelte "country-level analyses" brukes data for perioden 2000 til 2021.
