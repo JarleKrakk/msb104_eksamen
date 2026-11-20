@@ -1,8 +1,22 @@
 ---
-title: "eksamen"
-format: html
-editor: visual
+title: "Arbeidskrav i økonometri"
+subtitle: "MSB104 – Høsten 2026 – Oppdatert datasett"
+author:
+  - "Jarle"
+  - "Bruvik"
+  - "Mats"
+date: "2026-11-16"
+lang: nb
+format:
+  html:
+    toc: true
+    number-sections: true
+editor: source
 ---
+
+{{< include del1_bakgrunn.qmd >}}
+
+
 ## Oppgave 3 – Beskrivende statistikk
 ```{r}
 library(tidyverse)
