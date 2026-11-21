@@ -8,6 +8,8 @@ editor: visual
 
 ```{r}
 library(tidyverse)
+library(flextable)
+library(modelsummary)
 load("eu0823.RData")
 
 glimpse(eu0823)
@@ -138,6 +140,7 @@ gdp_region <- eu0823 |>
 head(gdp_region, 5)
 tail(gdp_region, 5)
 ```
+Bruvik har selv vært i både Budapest og Bucuresti og kan forstå at disse regionene har høy GDP. Regionen Calabria er også kjent for natur som ikke nødvendigvis gir høy avkastning på GDP.
 
 #manuf
 
@@ -153,6 +156,7 @@ Manuf_region <- eu0823 |>
 head(Manuf_region, 5)
 tail(Manuf_region, 5)
 ```
+Både Ciudad de Ceuta og Ciudad de Melilla er spanske enklaver som ligger i Spania og da gir det mening at det ikke skjer stort med produksjon i de regionene.
 
 #Density
 
@@ -168,7 +172,175 @@ Density_region <- eu0823 |>
 head(Density_region, 5)
 tail(Density_region, 5)
 ```
-
+Her igjen dukker Ciudad de Melilla og Ciudad de Ceuta opp, og siden ekslavene kun er byer gir det mening at populasjonstettheten er svært høy. De tre øvrige på topp 5 er hovedstader med høye befolkningstall.
 
 ## Oppgave 8 – Data Fitjar(2025)
 Vi kan lese fra abstracten at Fitjas(2025) ser på data fra 200 regioner i perioden 2009 til 2018. Antall regioner kommer også fram i flere av tabellen når vi ser på antall observasjoner. I metodekapittel spesifiseres det at disse regionene er fordelt på 22 land og at det i enkelte "country-level analyses" brukes data for perioden 2000 til 2021.
+
+## Oppgave 9 – Dataen i eu0823
+```{r}
+# Hvor mange land?
+eu0823 |>
+  distinct(geo) |>
+  summarise(
+    antall_land = n_distinct(substr(geo, 1, 2))
+  )
+```
+17 ulike land, altså 5 færre enn Fitjar (2025). 
+Ser i etterkant at det er en egen variabel med land så dobbelsjekker mot den:
+```{r}
+# Hvor mange land?
+eu0823 |>
+  summarise(
+    antall_land = n_distinct(country)
+  )
+```
+
+```{r}
+# Hvor mange regioner?
+eu0823 |>
+  summarise(
+    antall_regioner = n_distinct(geo)
+  )
+```
+Vi har 196 ulike regioner, mens Fitjar(2025) har 200
+
+```{r}
+# Hvilken tidsperiode dekker datasettet?
+eu0823 |>
+  summarise(
+    fra = min(time),
+    til = max(time)
+  )
+```
+Vår data er fra 2008 til 2023, mens Fitjar(2025) har fra 2009 til 2018 i den overordnede analysen og 2000 til 2021 i enkelte "country-level analyses".
+
+
+## Oppgave 10 - Eksludering av utvalgte regioner
+
+```{r}
+eu0823 |>
+  filter(geo %in% c("EL42", "EL62", "ES63", "ES64", "RO22")) |>
+  distinct(geo, name)
+```
+
+Eksludering av de to spanske ekslavene gir mening da disse skiller seg veldig ut fra andre regioner som tidligere diskutert. De to regionene med geo kode som starter med EL er greske øygrupper som gjør at de også skiller seg ut fra andre områder. Den rumenske regionen "Sud-Est" er ikke like intuitiv å eksludere så der må vi undersøke litt. 
+
+```{r}
+eu0823 |>
+  filter(geo == "RO22") |>
+  flextable()
+```
+Det ser ikke ut til å være noe mangel på data for den aktuelle regionen. Finner ingen åpenbar grunn for eksluderingen av Sud-Est (RO22)
+
+
+```{r}
+eu0823 <- eu0823 |>
+ filter(!geo %in% c("EL42", "EL62", "ES63", "ES64", "RO22"))
+```
+
+
+## Oppgave 11 - Modell 2 (ols within region means)
+```{r}
+# Nytt datasett med gjennomsnittlige verdier
+mean_eu0823 <- eu0823 |>
+  group_by(geo, name, country) |>
+  summarise(
+    pub_RD      = mean(pub_RD, na.rm = TRUE),
+    priv_RD     = mean(priv_RD, na.rm = TRUE),
+    HES_imp     = mean(HES_imp, na.rm = TRUE),
+    PNP_imp     = mean(PNP_imp, na.rm = TRUE),
+    GDP         = mean(GDP, na.rm = TRUE),
+    Capital     = mean(Capital, na.rm = TRUE),
+    Manuf       = mean(Manuf, na.rm = TRUE),
+    Density     = mean(Density, na.rm = TRUE),
+    edu         = mean(edu, na.rm = TRUE),
+    GDP_log     = mean(GDP_log, na.rm = TRUE),
+    Density_log = mean(Density_log, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+```{r}
+# Regresjon med GDP_log som forklaringsvariabel
+m1 <- lm(
+  pub_RD ~ GDP_log,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# Regresjon med GDP_log og country som forklaringsvariabler
+m2 <- lm(
+  pub_RD ~ GDP_log + factor(country),
+  data = mean_eu0823
+)
+```
+```{r}
+# Regresjon med GDP_log, country og priv_RD som forklaringsvariabler
+m3 <- lm(
+  pub_RD ~ GDP_log + factor(country) + priv_RD,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# Regresjon med GDP_log, country, priv_RD og Capital som forklaringsvariabler
+m4 <- lm(
+  pub_RD ~ GDP_log + factor(country) + priv_RD + Capital,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# Regresjon med GDP_log, country, priv_RD, Capital og Manuf som forklaringsvariabler
+m5 <- lm(
+  pub_RD ~ GDP_log + factor(country) + priv_RD + Capital + Manuf,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# Regresjon med GDP_log, country, priv_RD, Capital, Manuf og Density_log som forklaringsvariabler
+m6 <- lm(
+  pub_RD ~ GDP_log + factor(country) + priv_RD + Capital + Manuf + Density_log,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# Regresjon med GDP_log, country, priv_RD, Capital, Manuf, Density_log og edu som forklaringsvariabler
+m7 <- lm(
+  pub_RD ~ GDP_log + factor(country) + priv_RD + Capital + Manuf + Density_log + edu,
+  data = mean_eu0823
+)
+```
+
+```{r}
+# tabell med alle regjesjonene
+modelsummary(
+  list(
+    "(1)" = m1,
+    "(2)" = m2,
+    "(3)" = m3,
+    "(4)" = m4,
+    "(5)" = m5,
+    "(6)" = m6,
+    "(7)" = m7
+  ),
+  coef_omit = "country",
+  stars = TRUE
+)
+```
+
+Tabellen viser at resultatene våre i stor grad samsvarer med resultatene i Fitjar (2025). I begge analysene er BNP (GDP) positivt korrelert med offentlig FoU i de enkleste modellene, men effekten blir svakere og skifter fortegn når flere kontrollvariabler inkluderes. Dette tyder på at sammenhengen mellom regional velstand og offentlig FoU i stor grad fanges opp av andre strukturelle forhold.
+
+Variabelen Capital har en klar positiv effekt i modellene der den inngår fram til utdanning introduseres, noe som også samsvarer med Fitjar (2025).
+
+Tilsvarende finner vi at Manuf har en liten negativ effekt, mens Density_log ikke har noe signifikant påvirkning.
+
+Den tydeligste sammenhengen i vår analyse er utdanningsnivå, som har en positiv og statistisk signifikant effekt i den fulle modellen. Dette samsvarer med Fitjar (2025), hvor utdanning også fremstår som en viktig forklaringsvariabel. Samlet sett gir regresjonsanalysen derfor et lignende bilde som studien til Fitjar, selv om størrelsen på  koeffisientene avviker noe mellom datasettene.
+
+
+## Oppgave 12 - Robuste estimater på standard feil
+Plottet viser ingen tydelig form som vil antyde heteroskedastisitet, og F-testen er heller ikke signifikant. Vi finner derfor ikke evidens for heteroskedastisitet, og det fremstår ikke som nødvendig å benytte robuste standardfeil.
