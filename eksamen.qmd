@@ -14,9 +14,66 @@ format:
 editor: source
 ---
 
+```{r}
+#| echo: false
+# {{< include del1_bakgrunn.qmd >}}
+```
 
-{{< include del1_bakgrunn.qmd >}}
+## Oppgave 1: Sammendrag av Fitjar (2025)
 
+\[I artikkelen \*Does public R&D funding reinforce regional disparities? Exploring the changing geography of public and business R&D expenditure in Europe\* undersøker Fitjar (2025) om offentlige investeringer i forskning og utvikling (FoU) bidrar til å forsterke regionale økonomiske forskjeller i Europa.
+
+Studien tar utgangspunkt i to forskningsspørsmål:
+
+1.  Går offentlige FoU-investeringer hovedsakelig til regioner som allerede er økonomisk utviklet?
+
+2.  Blir forskjellene i offentlige FoU-investeringer mellom europeiske regioner mindre over tid?
+
+\*\*Data og metode\*\*
+
+Fitjar benytter data fra Eurostat for 200 regioner fordelt på 22 europeiske land i perioden 2009–2018. De fleste regionene er på NUTS2-nivå, men Belgia, Tyskland og Storbritannia er representert på NUTS1-nivå.
+
+Offentlige FoU-utgifter måles gjennom FoU-aktivitet i offentlig sektor og universitets- og høyskolesektoren, mens private FoU-utgifter måles gjennom næringslivets FoU-aktivitet. Investeringene måles som andel av regionalt BNP. Studien benytter blant annet regresjonsanalyser for å undersøke sammenhengen mellom offentlige FoU-investeringer og regionale kjennetegn som BNP per innbygger, privat FoU, utdanningsnivå, befolkningstetthet og næringsstruktur. Videre undersøkes utviklingen i regionale forskjeller gjennom analyser av beta- og sigma-konvergens.
+
+\*\*Hovedfunn\*\*
+
+Fitjar finner at økonomisk utviklede regioner generelt har høyere offentlige FoU-investeringer. Dette henger særlig sammen med at disse regionene har høyere utdanningsnivå og større privat FoU-aktivitet. Hovedstadsregioner mottar også relativt mye offentlig FoU, men sammenhengen kan delvis forklares av deres høye konsentrasjon av humankapital. Studien finner noebeta-konvergens i offentlige FoU-investeringer, som innebærer at regioner med lavt utgangspunkt har hatt relativt høyere vekst. Det finnes imidlertid ikke statistisk støtte for sigma-konvergens, altså at de samlede forskjellene mellom regionene blir mindre.
+
+For private FoU-investeringer finner studien derimot både beta- og sigma-konvergens. Dette tyder på at forskjellene mellom regionene faktisk har blitt redusert over tid, særlig gjennom vekst i regioner med lavere opprinnelige investeringer. Fitjar konkluderer dermed med at offentlige FoU-investeringer i stor grad favoriserer regioner som allerede har sterke økonomiske og kunnskapsmessige forutsetninger. Offentlig FoU-finansiering kan derfor bidra til å opprettholde eller forsterke regionale forskjeller, fremfor å redusere dem.
+
+## Oppgave 2: NUTS-systemet
+
+NUTS (\*Nomenclature of Territorial Units for Statistics\*) er EUs standardiserte system for geografisk inndeling av regioner. Systemet brukes av Eurostat for å samle inn, organisere og sammenligne regional statistikk på tvers av europeiske land. 
+
+NUTS-systemet er hierarkisk og består av tre nivåer, som i hovedsak er definert ut fra befolkningsstørrelse:
+
+```{r}
+#| label: tbl-nuts
+#| tbl-cap: "NUTS-nivåer og befolkningsgrenser"
+#| echo: false
+
+library(tidyverse)
+library(flextable)
+
+nuts_tab <- tibble(
+  `Nivå` = c("NUTS1", "NUTS2", "NUTS3"),
+  Beskrivelse = c(
+    "Store sosioøkonomiske regioner",
+    "Mellomstore regioner, særlig brukt i regionalpolitikk",
+    "Mindre regioner for detaljerte regionale analyser"
+  ),
+  `Befolkningsstørrelse` = c("3–7 millioner", "800 000–3 millioner", "150 000–800 000")
+)
+
+nuts_tab |>
+  flextable() |>
+  autofit()
+```
+Grensene er veiledende for den regionale inndelingen, og det finnes unntak. Systemet tar også hensyn til eksisterende administrative grenser og nasjonale forhold.
+
+Formålet med NUTS er å gjøre regionale data sammenlignbare mellom land, selv om landene har ulike administrative strukturer. Klassifiseringen brukes blant annet i analyser av økonomisk utvikling, sysselsetting, befolkning og regionale forskjeller, samt ved utforming av EUs regionalpolitikk.
+
+I dette arbeidskravet benytter vi data på NUTS2-nivå. Dette gjør det mulig å sammenligne FoU-investeringer og økonomiske kjennetegn mellom regioner innenfor og på tvers av europeiske land. Samtidig er det viktig å være oppmerksom på at regionenes grenser og klassifisering kan endres over tid, noe som kan påvirke sammenlignbarheten mellom datasett og tidsperioder.
 
 ## Oppgave 3 – Beskrivende statistikk
 
