@@ -43,7 +43,7 @@ For private FoU-investeringer finner studien derimot både beta- og sigma-konver
 
 ## Oppgave 2: NUTS-systemet
 
-NUTS (\*Nomenclature of Territorial Units for Statistics\*) er EUs standardiserte system for geografisk inndeling av regioner. Systemet brukes av Eurostat for å samle inn, organisere og sammenligne regional statistikk på tvers av europeiske land. 
+NUTS (\*Nomenclature of Territorial Units for Statistics\*) er EUs standardiserte system for geografisk inndeling av regioner. Systemet brukes av Eurostat for å samle inn, organisere og sammenligne regional statistikk på tvers av europeiske land.
 
 NUTS-systemet er hierarkisk og består av tre nivåer, som i hovedsak er definert ut fra befolkningsstørrelse:
 
@@ -69,6 +69,7 @@ nuts_tab |>
   flextable() |>
   autofit()
 ```
+
 Grensene er veiledende for den regionale inndelingen, og det finnes unntak. Systemet tar også hensyn til eksisterende administrative grenser og nasjonale forhold.
 
 Formålet med NUTS er å gjøre regionale data sammenlignbare mellom land, selv om landene har ulike administrative strukturer. Klassifiseringen brukes blant annet i analyser av økonomisk utvikling, sysselsetting, befolkning og regionale forskjeller, samt ved utforming av EUs regionalpolitikk.
@@ -195,6 +196,7 @@ NACE er en europeisk standard for klassifisering av næring. B-E omfatter B "Min
 Variablen density er definert i metodekapittelet som "the log of the region's population per km^2^ of area". Altså log(Population/km^2^).
 
 ## Oppgave 7 – topp 5 og bunn av 5 av GDP, Manuf og Density (Gjennomsnitt av periode)
+
 Siden tidsperspektivet ikke er spesifisert i oppgaven legger jeg til grunn at det er gjennomsnittet av perioden som er interresant.
 
 #gdp_region
@@ -211,6 +213,7 @@ gdp_region <- eu0823 |>
 head(gdp_region, 5)
 tail(gdp_region, 5)
 ```
+
 Bruvik har selv vært i både Budapest og Bucuresti og kan forstå at disse regionene har høy GDP. Regionen Calabria er også kjent for natur som ikke nødvendigvis gir høy avkastning på GDP.
 
 #manuf
@@ -227,6 +230,7 @@ Manuf_region <- eu0823 |>
 head(Manuf_region, 5)
 tail(Manuf_region, 5)
 ```
+
 Både Ciudad de Ceuta og Ciudad de Melilla er spanske enklaver som ligger i Spania og da gir det mening at det ikke skjer stort med produksjon i de regionene.
 
 #Density
@@ -243,12 +247,15 @@ Density_region <- eu0823 |>
 head(Density_region, 5)
 tail(Density_region, 5)
 ```
+
 Her igjen dukker Ciudad de Melilla og Ciudad de Ceuta opp, og siden ekslavene kun er byer gir det mening at populasjonstettheten er svært høy. De tre øvrige på topp 5 er hovedstader med høye befolkningstall.
 
 ## Oppgave 8 – Data Fitjar(2025)
+
 Vi kan lese fra abstracten at Fitjas(2025) ser på data fra 200 regioner i perioden 2009 til 2018. Antall regioner kommer også fram i flere av tabellen når vi ser på antall observasjoner. I metodekapittel spesifiseres det at disse regionene er fordelt på 22 land og at det i enkelte "country-level analyses" brukes data for perioden 2000 til 2021.
 
 ## Oppgave 9 – Dataen i eu0823
+
 ```{r}
 # Hvor mange land?
 eu0823 |>
@@ -257,8 +264,9 @@ eu0823 |>
     antall_land = n_distinct(substr(geo, 1, 2))
   )
 ```
-17 ulike land, altså 5 færre enn Fitjar (2025). 
-Ser i etterkant at det er en egen variabel med land så dobbelsjekker mot den:
+
+17 ulike land, altså 5 færre enn Fitjar (2025). Ser i etterkant at det er en egen variabel med land så dobbelsjekker mot den:
+
 ```{r}
 # Hvor mange land?
 eu0823 |>
@@ -274,6 +282,7 @@ eu0823 |>
     antall_regioner = n_distinct(geo)
   )
 ```
+
 Vi har 196 ulike regioner, mens Fitjar(2025) har 200
 
 ```{r}
@@ -284,8 +293,8 @@ eu0823 |>
     til = max(time)
   )
 ```
-Vår data er fra 2008 til 2023, mens Fitjar(2025) har fra 2009 til 2018 i den overordnede analysen og 2000 til 2021 i enkelte "country-level analyses".
 
+Vår data er fra 2008 til 2023, mens Fitjar(2025) har fra 2009 til 2018 i den overordnede analysen og 2000 til 2021 i enkelte "country-level analyses".
 
 ## Oppgave 10 - Eksludering av utvalgte regioner
 
@@ -295,23 +304,23 @@ eu0823 |>
   distinct(geo, name)
 ```
 
-Eksludering av de to spanske ekslavene gir mening da disse skiller seg veldig ut fra andre regioner som tidligere diskutert. De to regionene med geo kode som starter med EL er greske øygrupper som gjør at de også skiller seg ut fra andre områder. Den rumenske regionen "Sud-Est" er ikke like intuitiv å eksludere så der må vi undersøke litt. 
+Eksludering av de to spanske ekslavene gir mening da disse skiller seg veldig ut fra andre regioner som tidligere diskutert. De to regionene med geo kode som starter med EL er greske øygrupper som gjør at de også skiller seg ut fra andre områder. Den rumenske regionen "Sud-Est" er ikke like intuitiv å eksludere så der må vi undersøke litt.
 
 ```{r}
 eu0823 |>
   filter(geo == "RO22") |>
   flextable()
 ```
-Det ser ikke ut til å være noe mangel på data for den aktuelle regionen. Finner ingen åpenbar grunn for eksluderingen av Sud-Est (RO22)
 
+Det ser ikke ut til å være noe mangel på data for den aktuelle regionen. Finner ingen åpenbar grunn for eksluderingen av Sud-Est (RO22)
 
 ```{r}
 eu0823 <- eu0823 |>
  filter(!geo %in% c("EL42", "EL62", "ES63", "ES64", "RO22"))
 ```
 
-
 ## Oppgave 11 - Modell 2 (ols within region means)
+
 ```{r}
 # Nytt datasett med gjennomsnittlige verdier
 mean_eu0823 <- eu0823 |>
@@ -347,6 +356,7 @@ m2 <- lm(
   data = mean_eu0823
 )
 ```
+
 ```{r}
 # Regresjon med GDP_log, country og priv_RD som forklaringsvariabler
 m3 <- lm(
@@ -410,8 +420,135 @@ Variabelen Capital har en klar positiv effekt i modellene der den inngår fram t
 
 Tilsvarende finner vi at Manuf har en liten negativ effekt, mens Density_log ikke har noe signifikant påvirkning.
 
-Den tydeligste sammenhengen i vår analyse er utdanningsnivå, som har en positiv og statistisk signifikant effekt i den fulle modellen. Dette samsvarer med Fitjar (2025), hvor utdanning også fremstår som en viktig forklaringsvariabel. Samlet sett gir regresjonsanalysen derfor et lignende bilde som studien til Fitjar, selv om størrelsen på  koeffisientene avviker noe mellom datasettene.
-
+Den tydeligste sammenhengen i vår analyse er utdanningsnivå, som har en positiv og statistisk signifikant effekt i den fulle modellen. Dette samsvarer med Fitjar (2025), hvor utdanning også fremstår som en viktig forklaringsvariabel. Samlet sett gir regresjonsanalysen derfor et lignende bilde som studien til Fitjar, selv om størrelsen på koeffisientene avviker noe mellom datasettene.
 
 ## Oppgave 12 - Robuste estimater på standard feil
+
 Plottet viser ingen tydelig form som vil antyde heteroskedastisitet, og F-testen er heller ikke signifikant. Vi finner derfor ikke evidens for heteroskedastisitet, og det fremstår ikke som nødvendig å benytte robuste standardfeil.
+
+## Oppgave 13 – Vekst i offentlig FoU
+
+Den avhengige variabelen i modell 3 er veksten i offentlig FoU, målt som summen av årlige log-differanser, $\sum_t [\ln(PUB_t) - \ln(PUB_{t-1})]$, der $PUB$ er offentlig FoU som andel av BNP. En log-differanse er tilnærmet den prosentvise endringen fra ett år til det neste. Differansene beregnes med `dplyr::lag()` innenfor hver region. Summen kan skrives om til $\ln(PUB_{2023}) - \ln(PUB_{2008})$, slik at variabelen måler samlet log-vekst over perioden. Oppgaveteksten angir t = 2010–2023, men kontrolltallene i oppgavesettet gjenskapes bare når også endringen fra 2008 til 2009 tas med. Vi følger kontrolltallene. Startnivået som brukes som forklaringsvariabel i modell 4 og 5 er fra 2009. Tilsvarende vekstmål for privat FoU beregnes her og brukes i oppgave 15.
+
+```{r}
+# Logaritmen av offentlig og privat FoU
+eu0823 <- eu0823 |>
+  mutate(
+    pub_RD_log  = log(pub_RD),
+    priv_RD_log = log(priv_RD)
+  )
+```
+
+```{r}
+# Årlig endring i log(pub_RD) og log(priv_RD) innenfor hver region
+eu0823 <- eu0823 |>
+  arrange(geo, time) |>
+  group_by(geo) |>
+  mutate(
+    d_pub_RD_log  = pub_RD_log - lag(pub_RD_log),
+    d_priv_RD_log = priv_RD_log - lag(priv_RD_log)
+  ) |>
+  ungroup()
+```
+
+```{r}
+# Nytt datasett med samlet vekst og startnivå i 2009 for hver region
+vekst_eu0823 <- eu0823 |>
+  group_by(geo, name, country) |>
+  summarise(
+    vekst_pub   = sum(d_pub_RD_log, na.rm = TRUE),
+    vekst_priv  = sum(d_priv_RD_log, na.rm = TRUE),
+    pub_RD_log  = pub_RD_log[time == "2009"],
+    priv_RD_log = priv_RD_log[time == "2009"],
+    .groups = "drop"
+  )
+```
+
+```{r}
+# Beskrivende statistikk for vekstvariablene
+vekst_eu0823 |>
+  dplyr::select(vekst_pub, vekst_priv) |>
+  vtable::st(out = "return", digits = 3) |>
+  flextable::flextable() |>
+  flextable::autofit()
+```
+
+## Oppgave 14 – Konvergens i offentlig FoU
+
+```{r}
+# Modell 4: vekst i offentlig FoU på startnivået i 2009
+mod3a <- lm(
+  vekst_pub ~ pub_RD_log,
+  data = vekst_eu0823
+)
+```
+
+```{r}
+# Modell 5: som modell 4, med land som kontroll
+mod3b <- lm(
+  vekst_pub ~ pub_RD_log + factor(country),
+  data = vekst_eu0823
+)
+```
+
+```{r}
+# Tabell med modell 4 og 5
+modelsummary(
+  list(
+    "(4)" = mod3a,
+    "(5)" = mod3b
+  ),
+  coef_omit = "country",
+  stars = TRUE,
+  gof_map = c("nobs", "r.squared", "adj.r.squared")
+)
+```
+
+Koeffisienten for startnivået, `pub_RD_log`, er negativ og signifikant i begge modellene. Det tyder på beta-konvergens: regioner som hadde lite offentlig FoU i 2009, har hatt høyere vekst i offentlig FoU enn regioner som startet høyt. Siden både vekst og startnivå er målt i logaritmer, kan koeffisienten tolkes som en elastisitet. I modell 4 er en region med 10 % høyere startnivå forbundet med omtrent 1,3 prosentpoeng lavere samlet vekst over perioden.
+
+Når vi kontrollerer for land i modell 5, blir koeffisienten mer negativ (−0,228 mot −0,133) og sterkere signifikant. Konvergensen er altså tydeligere mellom regioner innenfor samme land enn på tvers av alle regionene. R² øker fra 0,056 til 0,370, som viser at landdummyene forklarer en stor del av variasjonen i vekst. Dette tyder på at nasjonale forhold, som nasjonal FoU-politikk og finansieringssystemer, har stor betydning for hvordan offentlig FoU utvikler seg i regionene. Justert R² øker mindre (fra 0,051 til 0,308), fordi landdummyene bruker 16 frihetsgrader.
+
+Fitjar (2025) måler veksten som gjennomsnittlig årlig vekst, mens vi bruker samlet vekst over 15 år. Siden vekstvariabelen da er 15 ganger større, blir koeffisientene våre 15 ganger større. t-verdier og R² påvirkes ikke. Omregnet til årlig vekst tilsvarer våre koeffisienter −0,0089 og −0,0152, mot Fitjars −0,006 og −0,010 i Table 2, kolonne (1) og (2). Fortegnene er de samme, og koeffisientene er signifikante i begge studiene. Merk at Fitjar markerer signifikans med \*\* for p < 0,05 og \*\*\* for p < 0,01, mens `modelsummary` bruker en strengere skala. Begge studiene finner også at koeffisienten blir mer negativ når det kontrolleres for land. Resultatene bekrefter dermed Fitjars funn av beta-konvergens i offentlig FoU, særlig innenfor land. Konvergensen er noe raskere i våre data, noe som kan skyldes at vi bruker en lengre og senere periode (2008–2023 mot 2009–2018) og et annet utvalg av land. Forklaringskraften er også ulik: landkontrollene øker R² fra 0,022 til 0,540 hos Fitjar, mot fra 0,056 til 0,370 hos oss.
+
+## Oppgave 15 – Konvergens i privat FoU
+
+```{r}
+# Modell 4 for privat FoU
+mod3aPriv <- lm(
+  vekst_priv ~ priv_RD_log,
+  data = vekst_eu0823
+)
+```
+
+```{r}
+# Modell 5 for privat FoU, med land som kontroll
+mod3bPriv <- lm(
+  vekst_priv ~ priv_RD_log + factor(country),
+  data = vekst_eu0823
+)
+```
+
+Vekstmålet for privat FoU (`vekst_priv`) og startnivået i 2009 (`priv_RD_log`) ble beregnet i oppgave 13. Modellene rapporteres sammen med modellene for offentlig FoU i oppgave 16.
+
+## Oppgave 16 – Samlet tabell for konvergens
+
+```{r}
+# Tabell med alle fire konvergensmodellene
+modelsummary(
+  list(
+    "Offentlig (4)" = mod3a,
+    "Offentlig (5)" = mod3b,
+    "Privat (4)"    = mod3aPriv,
+    "Privat (5)"    = mod3bPriv
+  ),
+  coef_omit = "country",
+  stars = TRUE,
+  gof_map = c("nobs", "r.squared", "adj.r.squared")
+)
+```
+
+Resultatene viser ulike konvergensmønstre for offentlig og privat FoU. For offentlig FoU blir koeffisienten mer negativ når vi inkluderer landkontroller, fra −0,133 til −0,228. Dette tyder på at konvergensen i hovedsak skjer mellom regioner innenfor samme land. For privat FoU ser vi motsatt utvikling: koeffisienten blir mindre negativ, fra −0,439 til −0,222, når landkontroller inkluderes. Dette indikerer at en betydelig del av konvergensen i privat FoU skjer mellom land, og at forskjeller mellom land forklarer en del av den opprinnelige sammenhengen.
+
+Vi ser også at privat FoU konvergerer raskere enn offentlig FoU. Uten landkontroller er koeffisienten betydelig mer negativ (−0,439 mot −0,133). Forklaringskraften er også langt høyere for privat FoU, med R² på 0,47 mot 0,06 for offentlig FoU. Startnivået forklarer altså en større del av variasjonen i vekst for privat FoU enn for offentlig FoU.
+
+Mønsteret samsvarer med Fitjar (2025, Table 2). Omregnet til årlig vekst er koeffisienten for privat FoU −0,029 uten og −0,015 med landkontroller i våre data, mot −0,017 og −0,010 hos Fitjar. I begge studiene blir koeffisienten for privat FoU mindre negativ når land kontrolleres, mens koeffisienten for offentlig FoU blir mer negativ. Begge studiene finner også at privat FoU konvergerer raskere enn offentlig FoU. Dette stemmer med Fitjars konklusjon om at konvergensen i næringslivets FoU i stor grad skjer mellom land, mens offentlig FoU først og fremst konvergerer innenfor land. Startnivået forklarer mer av variasjonen i privat FoU hos oss enn hos Fitjar (R² 0,47 mot 0,14 uten landkontroller), noe som kan skyldes den lengre perioden. Den gir mer tid til at regioner med lav privat FoU i utgangspunktet, særlig i Øst- og Sør-Europa, kan ta igjen de andre.
